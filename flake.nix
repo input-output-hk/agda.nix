@@ -4,6 +4,8 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs";
 
+    flake-utils.url = "github:numtide/flake-utils";
+
     shellFor = {
       url = "./tools/shellFor";
       inputs.nixpkgs.follows = "nixpkgs";
