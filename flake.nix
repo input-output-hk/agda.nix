@@ -77,7 +77,9 @@
             value = pkgs.agdaPackages.${p};
           }) libraries
         );
-        devShells.default = pkgs.agda.withPackages (builtins.map (p: pkgs.agdaPackages.${p}) libraries);
+        devShells.default = pkgs.mkShell {
+          packages = [ (pkgs.agda.withPackages (builtins.map (p: pkgs.agdaPackages.${p}) libraries)) ];
+        };
         hydraJobs =
           let
             jobs = { inherit (self) packages devShells; };
