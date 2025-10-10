@@ -1,5 +1,5 @@
 {
-  description = "abstract-set-theory";
+  description = "IOG prelude";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs";
