@@ -78,6 +78,17 @@
           }) libraries
         );
         devShells.default = pkgs.agda.withPackages (builtins.map (p: pkgs.agdaPackages.${p}) libraries);
+        hydraJobs =
+          let
+            jobs = { inherit (self) packages devShells; };
+          in
+          jobs
+          // {
+            required = pkgs.releaseTools.aggregate {
+              name = "${system}-required";
+              constituents = with nixpkgs.lib; collect isDerivation jobs;
+            };
+          };
       }
     )
     // {
