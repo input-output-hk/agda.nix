@@ -25,7 +25,7 @@
     };
 
     abstract-set-theory = {
-      url = "./libraries/abstract-set-theory";
+      url = "github:input-output-hk/agda-sets";
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.shellFor.follows = "shellFor";
       inputs.standard-library-classes.follows = "standard-library-classes";
@@ -33,7 +33,7 @@
     };
 
     iog-prelude = {
-      url = "./libraries/iog-prelude";
+      url = "github:input-output-hk/iog-agda-prelude";
       inputs.shellFor.follows = "shellFor";
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.standard-library-classes.follows = "standard-library-classes";

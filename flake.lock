@@ -2,7 +2,6 @@
   "nodes": {
     "abstract-set-theory": {
       "inputs": {
-        "abstract-set-theory": "abstract-set-theory_2",
         "flake-utils": "flake-utils",
         "nixpkgs": [
           "nixpkgs"
@@ -18,23 +17,11 @@
         ]
       },
       "locked": {
-        "path": "./libraries/abstract-set-theory",
-        "type": "path"
-      },
-      "original": {
-        "path": "./libraries/abstract-set-theory",
-        "type": "path"
-      },
-      "parent": []
-    },
-    "abstract-set-theory_2": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1759927275,
-        "narHash": "sha256-N3HfWAFO40RDUP/ZyCqNC1sUBjZjVWQ+MJPEwPuCovg=",
+        "lastModified": 1760101453,
+        "narHash": "sha256-ACyo6WhFzNDak6dE2V0JEO4bnc/bXerqKnKnCRgGl+M=",
         "owner": "input-output-hk",
         "repo": "agda-sets",
-        "rev": "bd6c7996445e49a327e1cbaba7647e87972e6499",
+        "rev": "82554d7b901749e0a36e5cecd23751002b979d67",
         "type": "github"
       },
       "original": {
@@ -136,7 +123,6 @@
     "iog-prelude": {
       "inputs": {
         "flake-utils": "flake-utils_3",
-        "iog-prelude": "iog-prelude_2",
         "nixpkgs": [
           "nixpkgs"
         ],
@@ -151,23 +137,11 @@
         ]
       },
       "locked": {
-        "path": "./libraries/iog-prelude",
-        "type": "path"
-      },
-      "original": {
-        "path": "./libraries/iog-prelude",
-        "type": "path"
-      },
-      "parent": []
-    },
-    "iog-prelude_2": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1756730517,
-        "narHash": "sha256-Z6P1D/fNNYMZT+MYgYPPnyDyAUdp8DeRjn4MFac6T+Q=",
+        "lastModified": 1760101570,
+        "narHash": "sha256-1WS4cx9Qo73rJ4mJxIJ0RFoxQQrvto8kRyC/zrLmFVo=",
         "owner": "input-output-hk",
         "repo": "iog-agda-prelude",
-        "rev": "e25670dcea694f321cbcd7a0bb704b82d5d7b266",
+        "rev": "c6d5b0a46c60680e1ac11cec8b3a7749e9943839",
         "type": "github"
       },
       "original": {
