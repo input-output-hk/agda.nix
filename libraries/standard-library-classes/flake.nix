@@ -49,7 +49,7 @@
       in
       {
         packages.default = pkgs.agdaPackages.standard-library-classes;
-        devShells.default = pkgs.agdaPackages.standard-library-classes;
+        devShells.default = pkgs.agda.shellFor pkgs.agdaPackages.standard-library-classes;
       }
     )
     // {
