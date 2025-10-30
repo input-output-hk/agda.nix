@@ -93,7 +93,8 @@
           };
       }
     )
-    // {
+    //
+    {
       overlays = {
         default = overlay;
       }
@@ -103,5 +104,10 @@
           value = inputs.${p}.overlays.default;
         }) (tools ++ libraries)
       );
+    } // {
+      templates.simple = {
+        path = ./templates/simple;
+        description = "Simple agda library project using agda.nix";
+      };
     };
 }

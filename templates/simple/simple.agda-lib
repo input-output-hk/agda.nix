@@ -1,0 +1,6 @@
+name: simple
+depend: standard-library
+        standard-library-meta
+        abstract-set-theory
+include: ./src
+flags: --safe
