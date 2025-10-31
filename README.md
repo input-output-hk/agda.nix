@@ -1,5 +1,16 @@
 # agda.nix
 
+## templates
+
+This flake provides a `simple` template to initialize an Agda project using
+`agda.nix`.
+
+To get the template run:
+
+```bash
+nix flake init --template github:input-output-hk/agda.nix#simple
+```
+
 ## overlays
 
 This flake provides `overlays` that add the following Agda libraries to the
