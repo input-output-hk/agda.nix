@@ -6,38 +6,24 @@
 
     flake-utils.url = "github:numtide/flake-utils";
 
-    shellFor = {
-      url = "./tools/shellFor";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     standard-library-classes = {
-      url = "./libraries/standard-library-classes";
-      inputs.nixpkgs.follows = "nixpkgs";
-      inputs.shellFor.follows = "shellFor";
+      url = "github:agda/agda-stdlib-classes";
+      flake = false;
     };
 
     standard-library-meta = {
-      url = "./libraries/standard-library-meta";
-      inputs.nixpkgs.follows = "nixpkgs";
-      inputs.shellFor.follows = "shellFor";
-      inputs.standard-library-classes.follows = "standard-library-classes";
+      url = "github:agda/agda-stdlib-meta";
+      flake = false;
     };
 
     abstract-set-theory = {
       url = "github:input-output-hk/agda-sets";
-      inputs.nixpkgs.follows = "nixpkgs";
-      inputs.shellFor.follows = "shellFor";
-      inputs.standard-library-classes.follows = "standard-library-classes";
-      inputs.standard-library-meta.follows = "standard-library-meta";
+      flake = false;
     };
 
     iog-prelude = {
       url = "github:input-output-hk/iog-agda-prelude";
-      inputs.shellFor.follows = "shellFor";
-      inputs.nixpkgs.follows = "nixpkgs";
-      inputs.standard-library-classes.follows = "standard-library-classes";
-      inputs.standard-library-meta.follows = "standard-library-meta";
+      flake = false;
     };
   };
 
@@ -49,25 +35,75 @@
       ...
     }:
     let
-      tools = [ "shellFor" ];
-      libraries = [
-        "standard-library-classes"
-        "standard-library-meta"
-        "abstract-set-theory"
-        "iog-prelude"
-      ];
-      overlay = nixpkgs.lib.composeManyExtensions (
-        builtins.map (p: inputs.${p}.overlays.default) libraries
-      );
+      inherit (nixpkgs) lib;
+
+      overlays-libraries = rec {
+        standard-library-classes = final: prev: {
+          agdaPackages = prev.agdaPackages.overrideScope (
+            afinal: aprev: {
+              standard-library-classes = afinal.callPackage ./libraries/standard-library-classes.nix {
+                src = inputs.standard-library-classes;
+              };
+            }
+          );
+        };
+        standard-library-meta = lib.composeExtensions standard-library-classes (
+          final: prev: {
+            agdaPackages = prev.agdaPackages.overrideScope (
+              afinal: aprev: {
+                standard-library-meta = afinal.callPackage ./libraries/standard-library-meta.nix {
+                  src = inputs.standard-library-meta;
+                };
+              }
+            );
+          }
+        );
+        abstract-set-theory = lib.composeManyExtensions [
+          standard-library-classes
+          standard-library-meta
+          (final: prev: {
+            agdaPackages = prev.agdaPackages.overrideScope (
+              afinal: aprev: {
+                abstract-set-theory = afinal.callPackage ./libraries/abstract-set-theory.nix {
+                  src = inputs.abstract-set-theory;
+                };
+              }
+            );
+          })
+        ];
+        iog-prelude = lib.composeManyExtensions [
+          standard-library-classes
+          standard-library-meta
+          (final: prev: {
+            agdaPackages = prev.agdaPackages.overrideScope (
+              afinal: aprev: {
+                iog-prelude = afinal.callPackage ./libraries/iog-prelude.nix {
+                  src = inputs.iog-prelude;
+                };
+              }
+            );
+          })
+        ];
+      };
+      overlays-tools = rec {
+        shellFor = final: prev: {
+          agda = prev.agda // {
+            shellFor =
+              p:
+              prev.mkShell {
+                packages = [ (final.agda.withPackages (builtins.filter (p: p ? isAgdaDerivation) p.buildInputs)) ];
+              };
+          };
+        };
+      };
+      libraries = builtins.attrNames overlays-libraries;
     in
     flake-utils.lib.eachDefaultSystem (
       system:
       let
         pkgs = import nixpkgs {
           inherit system;
-          overlays = [
-            overlay
-          ];
+          overlays = nixpkgs.lib.attrsets.attrValues overlays-libraries;
         };
       in
       {
@@ -93,18 +129,19 @@
           };
       }
     )
-    //
-    {
-      overlays = {
-        default = overlay;
-      }
-      // builtins.listToAttrs (
-        builtins.map (p: {
-          name = p;
-          value = inputs.${p}.overlays.default;
-        }) (tools ++ libraries)
-      );
-    } // {
+    // {
+      overlays =
+        overlays-libraries
+        // overlays-tools
+        // {
+          default = lib.composeManyExtensions (
+            nixpkgs.lib.attrsets.attrValues overlays-libraries ++ nixpkgs.lib.attrsets.attrValues overlays-tools
+          );
+        }
+        // overlays-libraries
+        // overlays-tools;
+    }
+    // {
       templates.simple = {
         path = ./templates/simple;
         description = "Simple agda library project using agda.nix";

@@ -7,7 +7,7 @@
 mkDerivation {
   pname = "standard-library-meta";
   version = "2.3";
-  src = src;
+  inherit src;
   meta = { };
   libraryFile = "agda-stdlib-meta.agda-lib";
   everythingFile = "standard-library-meta.agda";
