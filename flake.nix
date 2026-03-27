@@ -21,6 +21,11 @@
       flake = false;
     };
 
+    categorical-crypto = {
+      url = "github:input-output-hk/categorical-crypto";
+      flake = false;
+    };
+
     iog-prelude = {
       url = "github:input-output-hk/iog-agda-prelude";
       flake = false;
@@ -66,6 +71,19 @@
               afinal: aprev: {
                 abstract-set-theory = afinal.callPackage ./libraries/abstract-set-theory.nix {
                   src = inputs.abstract-set-theory;
+                };
+              }
+            );
+          })
+        ];
+        categorical-crypto = lib.composeManyExtensions [
+          standard-library-classes
+          standard-library-meta
+          (final: prev: {
+            agdaPackages = prev.agdaPackages.overrideScope (
+              afinal: aprev: {
+                categorical-crypto = afinal.callPackage ./libraries/categorical-crypto.nix {
+                  src = inputs.categorical-crypto;
                 };
               }
             );
