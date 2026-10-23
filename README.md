@@ -19,5 +19,6 @@ This flake provides `overlays` that add the following Agda libraries to the
 - `overlays.standard-library-classes`: [`standard-library-classes`](https://github.com/agda/agda-stdlib-classes).
 - `overlays.standard-library-meta`: [`standard-library-meta`](https://github.com/agda/agda-stdlib-meta).
 - `overlays.abstract-set-theory`: [`abstract-set-theory`](https://github.com/input-output-hk/agda-sets).
+- `overlays.categorical-crypto`: [`categorical-crypto`](https://github.com/input-output-hk/categorical-crypto).
 - `overlays.iog-prelude`: [`iog-prelude`](https://github.com/input-output-hk/iog-agda-prelude).
 - `overlays.default`: all of the above.
