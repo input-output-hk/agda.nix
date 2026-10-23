@@ -103,7 +103,7 @@
           })
         ];
       };
-      overlays-tools = rec {
+      overlays-tools = {
         shellFor = final: prev: {
           agda = prev.agda // {
             shellFor =
@@ -126,13 +126,13 @@
       in
       {
         packages = builtins.listToAttrs (
-          builtins.map (p: {
+          map (p: {
             name = p;
             value = pkgs.agdaPackages.${p};
           }) libraries
         );
         devShells.default = pkgs.mkShell {
-          packages = [ (pkgs.agda.withPackages (builtins.map (p: pkgs.agdaPackages.${p}) libraries)) ];
+          packages = [ (pkgs.agda.withPackages (map (p: pkgs.agdaPackages.${p}) libraries)) ];
         };
         hydraJobs =
           let
@@ -155,9 +155,7 @@
           default = lib.composeManyExtensions (
             nixpkgs.lib.attrsets.attrValues overlays-libraries ++ nixpkgs.lib.attrsets.attrValues overlays-tools
           );
-        }
-        // overlays-libraries
-        // overlays-tools;
+        };
     }
     // {
       templates.simple = {
