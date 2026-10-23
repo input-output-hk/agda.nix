@@ -1,0 +1,37 @@
+{
+  "abstract-set-theory": {
+    "owner": "input-output-hk",
+    "repo": "agda-sets",
+    "version": "0-unstable-2026-02-18",
+    "rev": "2253231ad856b9b95f32d6b06709748e59bdbb3e",
+    "hash": "sha256-IFTHS6C44PHdwYQVWNW/0WZf+3fWtzSfR21c3UmihLU="
+  },
+  "categorical-crypto": {
+    "owner": "input-output-hk",
+    "repo": "categorical-crypto",
+    "version": "0-unstable-2026-03-25",
+    "rev": "6cdf63785fb39f5e340240667e7a0c5aed473d90",
+    "hash": "sha256-t0HXmhW3C4VPkl1IMiwa16lgZVomxuu74O30qwoEeNU="
+  },
+  "iog-prelude": {
+    "owner": "input-output-hk",
+    "repo": "iog-agda-prelude",
+    "version": "0.1.0.0-unstable-2025-12-08",
+    "rev": "e12e69e8cc76cd41d19d0e38a44afa4358969a47",
+    "hash": "sha256-xTivBEzcpJBqzdjj+gJqJ7wrEMmh/ZwXRi8h575XPFs="
+  },
+  "standard-library-classes": {
+    "owner": "agda",
+    "repo": "agda-stdlib-classes",
+    "version": "2.3-unstable-2025-08-05",
+    "rev": "e732956fb01eb616bb3429f290d9434f4ab59b6a",
+    "hash": "sha256-tuXuZcwu6XNFP979oSZg0yfFY9eMyqpkUNddk+QchVc="
+  },
+  "standard-library-meta": {
+    "owner": "agda",
+    "repo": "agda-stdlib-meta",
+    "version": "2.3-unstable-2026-07-14",
+    "rev": "5690f324fcde24aea4c58011035185150f65058b",
+    "hash": "sha256-HQX2phq5CtAsczRRS0A6llWzjKGAeRksNgj8PLGu8kQ="
+  }
+}

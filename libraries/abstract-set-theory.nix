@@ -1,4 +1,5 @@
 {
+  version,
   src,
   mkDerivation,
   standard-library,
@@ -7,8 +8,7 @@
 }:
 mkDerivation {
   pname = "abstract-set-theory";
-  version = "+";
-  inherit src;
+  inherit version src;
   meta = { };
   libraryFile = "abstract-set-theory.agda-lib";
   everythingFile = "src/abstract-set-theory.agda";
