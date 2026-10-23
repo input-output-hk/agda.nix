@@ -155,9 +155,7 @@
           default = lib.composeManyExtensions (
             nixpkgs.lib.attrsets.attrValues overlays-libraries ++ nixpkgs.lib.attrsets.attrValues overlays-tools
           );
-        }
-        // overlays-libraries
-        // overlays-tools;
+        };
     }
     // {
       templates.simple = {
