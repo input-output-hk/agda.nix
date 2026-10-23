@@ -1,4 +1,5 @@
 {
+  version,
   src,
   mkDerivation,
   standard-library,
@@ -8,8 +9,7 @@
 }:
 mkDerivation {
   pname = "categorical-crypto";
-  version = "+";
-  inherit src;
+  inherit version src;
   meta = { };
   libraryFile = "categorical-crypto.agda-lib";
   everythingFile = "src/CategoricalCrypto.agda";

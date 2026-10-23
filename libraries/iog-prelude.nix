@@ -1,4 +1,5 @@
 {
+  version,
   src,
   mkDerivation,
   standard-library,
@@ -7,9 +8,8 @@
 }:
 mkDerivation {
   pname = "iog-prelude";
-  version = "+";
+  inherit version src;
   meta = { };
-  inherit src;
   libraryFile = "iog-prelude.agda-lib";
   everythingFile = "src/Everything.agda";
   buildInputs = [

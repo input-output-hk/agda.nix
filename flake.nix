@@ -5,31 +5,6 @@
     nixpkgs.url = "github:NixOS/nixpkgs";
 
     flake-utils.url = "github:numtide/flake-utils";
-
-    standard-library-classes = {
-      url = "github:agda/agda-stdlib-classes";
-      flake = false;
-    };
-
-    standard-library-meta = {
-      url = "github:agda/agda-stdlib-meta";
-      flake = false;
-    };
-
-    abstract-set-theory = {
-      url = "github:input-output-hk/agda-sets";
-      flake = false;
-    };
-
-    categorical-crypto = {
-      url = "github:input-output-hk/categorical-crypto";
-      flake = false;
-    };
-
-    iog-prelude = {
-      url = "github:input-output-hk/iog-agda-prelude";
-      flake = false;
-    };
   };
 
   outputs =
@@ -42,13 +17,27 @@
     let
       inherit (nixpkgs) lib;
 
+      versions = lib.importJSON ./versions.json;
+
+      fetchLib = pkgs: name: {
+        src = pkgs.fetchFromGitHub {
+          inherit (versions.${name})
+            owner
+            repo
+            rev
+            hash
+            ;
+        };
+        version = versions.${name}.version;
+      };
+
       overlays-libraries = rec {
         standard-library-classes = final: prev: {
           agdaPackages = prev.agdaPackages.overrideScope (
             afinal: aprev: {
-              standard-library-classes = afinal.callPackage ./libraries/standard-library-classes.nix {
-                src = inputs.standard-library-classes;
-              };
+              standard-library-classes = afinal.callPackage ./libraries/standard-library-classes.nix (
+                fetchLib final "standard-library-classes"
+              );
             }
           );
         };
@@ -56,9 +45,9 @@
           final: prev: {
             agdaPackages = prev.agdaPackages.overrideScope (
               afinal: aprev: {
-                standard-library-meta = afinal.callPackage ./libraries/standard-library-meta.nix {
-                  src = inputs.standard-library-meta;
-                };
+                standard-library-meta = afinal.callPackage ./libraries/standard-library-meta.nix (
+                  fetchLib final "standard-library-meta"
+                );
               }
             );
           }
@@ -69,9 +58,9 @@
           (final: prev: {
             agdaPackages = prev.agdaPackages.overrideScope (
               afinal: aprev: {
-                abstract-set-theory = afinal.callPackage ./libraries/abstract-set-theory.nix {
-                  src = inputs.abstract-set-theory;
-                };
+                abstract-set-theory = afinal.callPackage ./libraries/abstract-set-theory.nix (
+                  fetchLib final "abstract-set-theory"
+                );
               }
             );
           })
@@ -82,9 +71,9 @@
           (final: prev: {
             agdaPackages = prev.agdaPackages.overrideScope (
               afinal: aprev: {
-                categorical-crypto = afinal.callPackage ./libraries/categorical-crypto.nix {
-                  src = inputs.categorical-crypto;
-                };
+                categorical-crypto = afinal.callPackage ./libraries/categorical-crypto.nix (
+                  fetchLib final "categorical-crypto"
+                );
               }
             );
           })
@@ -95,9 +84,7 @@
           (final: prev: {
             agdaPackages = prev.agdaPackages.overrideScope (
               afinal: aprev: {
-                iog-prelude = afinal.callPackage ./libraries/iog-prelude.nix {
-                  src = inputs.iog-prelude;
-                };
+                iog-prelude = afinal.callPackage ./libraries/iog-prelude.nix (fetchLib final "iog-prelude");
               }
             );
           })
