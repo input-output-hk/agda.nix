@@ -24,6 +24,10 @@ utilities:
 
 - `shellFor`: build a development shell for an Agda package.
   For example,
-  ```bash
+  ```nix
     devShells.default = pkgs.agda.lib.shellFor pkgs.agdaPackages.iog-prelude;
   ```
+
+## documentation
+
+See  [docs/examples.md](docs/examples.md) for common recipes.
