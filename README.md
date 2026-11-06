@@ -21,3 +21,8 @@ This flake provides `overlays` that add the following Agda libraries to the
 - `overlays.abstract-set-theory`: [`abstract-set-theory`](https://github.com/input-output-hk/agda-sets).
 - `overlays.iog-prelude`: [`iog-prelude`](https://github.com/input-output-hk/iog-agda-prelude).
 - `overlays.default`: all of the above.
+
+Additionally, it provides flake inputs for some libraries that are already in `nixpkgs` for consistent handling:
+
+- `overlays.standard-library`: [`standard-library`](https://github.com/agda/agda-stdlib).
+- `overlays.agda-categories`: [`agda-categories`](https://github.com/agda/agda-categories).
