@@ -6,6 +6,16 @@
 
     flake-utils.url = "github:numtide/flake-utils";
 
+    standard-library = {
+      url = "github:agda/agda-stdlib";
+      flake = false;
+    };
+
+    agda-categories = {
+      url = "github:agda/agda-categories";
+      flake = false;
+    };
+
     standard-library-classes = {
       url = "github:agda/agda-stdlib-classes";
       flake = false;
@@ -43,15 +53,40 @@
       inherit (nixpkgs) lib;
 
       overlays-libraries = rec {
-        standard-library-classes = final: prev: {
+        standard-library = final: prev: {
           agdaPackages = prev.agdaPackages.overrideScope (
             afinal: aprev: {
-              standard-library-classes = afinal.callPackage ./libraries/standard-library-classes.nix {
-                src = inputs.standard-library-classes;
-              };
+              standard-library = aprev.standard-library.overrideAttrs (_: {
+                src = inputs.standard-library;
+              });
             }
           );
         };
+        agda-categories = lib.composeExtensions standard-library (
+          final: prev: {
+            agdaPackages = prev.agdaPackages.overrideScope (
+              afinal: aprev: {
+                # The build phase closes over the package argument, not the final buildInputs.
+                agda-categories = (aprev.agda-categories.override {
+                  standard-library = afinal.standard-library;
+                }).overrideAttrs (_: {
+                  src = inputs.agda-categories;
+                });
+              }
+            );
+          }
+        );
+        standard-library-classes = lib.composeExtensions standard-library (
+          final: prev: {
+            agdaPackages = prev.agdaPackages.overrideScope (
+              afinal: aprev: {
+                standard-library-classes = afinal.callPackage ./libraries/standard-library-classes.nix {
+                  src = inputs.standard-library-classes;
+                };
+              }
+            );
+          }
+        );
         standard-library-meta = lib.composeExtensions standard-library-classes (
           final: prev: {
             agdaPackages = prev.agdaPackages.overrideScope (
@@ -78,6 +113,7 @@
         ];
         categorical-crypto = lib.composeManyExtensions [
           standard-library-classes
+          agda-categories
           standard-library-meta
           (final: prev: {
             agdaPackages = prev.agdaPackages.overrideScope (
