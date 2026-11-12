@@ -54,13 +54,7 @@
       in
       {
         packages.default = simple-library;
-        devShells.default = pkgs.mkShell {
-          packages = [
-            (pkgs.agdaPackages.agda.withPackages (
-              builtins.filter (p: p ? isAgdaDerivation) simple-library.buildInputs
-            ))
-          ];
-        };
+        devShells.default = pkgs.agda.lib.shellFor simple-library;
       }
     );
 }

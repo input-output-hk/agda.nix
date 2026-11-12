@@ -3,47 +3,11 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs";
-
     flake-utils.url = "github:numtide/flake-utils";
-
-    standard-library = {
-      url = "github:agda/agda-stdlib";
-      flake = false;
-    };
-
-    agda-categories = {
-      url = "github:agda/agda-categories";
-      flake = false;
-    };
-
-    standard-library-classes = {
-      url = "github:agda/agda-stdlib-classes";
-      flake = false;
-    };
-
-    standard-library-meta = {
-      url = "github:agda/agda-stdlib-meta";
-      flake = false;
-    };
-
-    abstract-set-theory = {
-      url = "github:input-output-hk/agda-sets";
-      flake = false;
-    };
-
-    categorical-crypto = {
-      url = "github:input-output-hk/categorical-crypto";
-      flake = false;
-    };
-
-    iog-prelude = {
-      url = "github:input-output-hk/iog-agda-prelude";
-      flake = false;
-    };
   };
 
   outputs =
-    inputs@{
+    {
       self,
       nixpkgs,
       flake-utils,
@@ -52,127 +16,37 @@
     let
       inherit (nixpkgs) lib;
 
-      overlays-libraries = rec {
-        standard-library = final: prev: {
-          agdaPackages = prev.agdaPackages.overrideScope (
-            afinal: aprev: {
-              standard-library = aprev.standard-library.overrideAttrs (_: {
-                src = inputs.standard-library;
-              });
-            }
-          );
-        };
-        agda-categories = lib.composeExtensions standard-library (
-          final: prev: {
-            agdaPackages = prev.agdaPackages.overrideScope (
-              afinal: aprev: {
-                # The build phase closes over the package argument, not the final buildInputs.
-                agda-categories = (aprev.agda-categories.override {
-                  standard-library = afinal.standard-library;
-                }).overrideAttrs (_: {
-                  src = inputs.agda-categories;
-                });
-              }
-            );
-          }
+      agda-pkgs = import ./agda-packages.nix;
+
+      overlay-packages = final: prev: {
+        agdaPackages = prev.agdaPackages.overrideScope (
+          afinal: aprev: builtins.mapAttrs (pkg: f: afinal.callPackage f { }) agda-pkgs
         );
-        standard-library-classes = lib.composeExtensions standard-library (
-          final: prev: {
-            agdaPackages = prev.agdaPackages.overrideScope (
-              afinal: aprev: {
-                standard-library-classes = afinal.callPackage ./libraries/standard-library-classes.nix {
-                  src = inputs.standard-library-classes;
-                };
-              }
-            );
-          }
-        );
-        standard-library-meta = lib.composeExtensions standard-library-classes (
-          final: prev: {
-            agdaPackages = prev.agdaPackages.overrideScope (
-              afinal: aprev: {
-                standard-library-meta = afinal.callPackage ./libraries/standard-library-meta.nix {
-                  src = inputs.standard-library-meta;
-                };
-              }
-            );
-          }
-        );
-        abstract-set-theory = lib.composeManyExtensions [
-          standard-library-classes
-          standard-library-meta
-          (final: prev: {
-            agdaPackages = prev.agdaPackages.overrideScope (
-              afinal: aprev: {
-                abstract-set-theory = afinal.callPackage ./libraries/abstract-set-theory.nix {
-                  src = inputs.abstract-set-theory;
-                };
-              }
-            );
-          })
-        ];
-        categorical-crypto = lib.composeManyExtensions [
-          standard-library-classes
-          agda-categories
-          standard-library-meta
-          (final: prev: {
-            agdaPackages = prev.agdaPackages.overrideScope (
-              afinal: aprev: {
-                categorical-crypto = afinal.callPackage ./libraries/categorical-crypto.nix {
-                  src = inputs.categorical-crypto;
-                };
-              }
-            );
-          })
-        ];
-        iog-prelude = lib.composeManyExtensions [
-          standard-library-classes
-          standard-library-meta
-          (final: prev: {
-            agdaPackages = prev.agdaPackages.overrideScope (
-              afinal: aprev: {
-                iog-prelude = afinal.callPackage ./libraries/iog-prelude.nix {
-                  src = inputs.iog-prelude;
-                };
-              }
-            );
-          })
-        ];
       };
-      overlays-tools = rec {
-        shellFor = final: prev: {
-          agda = prev.agda // {
-            shellFor =
-              p:
-              prev.mkShell {
-                packages = [ (final.agda.withPackages (builtins.filter (p: p ? isAgdaDerivation) p.buildInputs)) ];
-              };
-          };
+
+      overlay-lib = final: prev: {
+        agda = prev.agda // {
+          lib = import ./lib.nix { pkgs = final; };
         };
       };
-      libraries = builtins.attrNames overlays-libraries;
+
     in
     flake-utils.lib.eachDefaultSystem (
       system:
       let
         pkgs = import nixpkgs {
           inherit system;
-          overlays = nixpkgs.lib.attrsets.attrValues overlays-libraries;
+          overlays = [
+            overlay-packages
+            overlay-lib
+          ];
         };
       in
       {
-        packages = builtins.listToAttrs (
-          builtins.map (p: {
-            name = p;
-            value = pkgs.agdaPackages.${p};
-          }) libraries
-        );
-        devShells.default = pkgs.mkShell {
-          packages = [ (pkgs.agda.withPackages (builtins.map (p: pkgs.agdaPackages.${p}) libraries)) ];
-        };
+        packages = builtins.mapAttrs (pkg: _: pkgs.agdaPackages.${pkg}) agda-pkgs;
         hydraJobs =
           let
-            jobs = { inherit (self) packages devShells; };
+            jobs = self.packages.${system};
           in
           jobs
           // {
@@ -184,16 +58,10 @@
       }
     )
     // {
-      overlays =
-        overlays-libraries
-        // overlays-tools
-        // {
-          default = lib.composeManyExtensions (
-            nixpkgs.lib.attrsets.attrValues overlays-libraries ++ nixpkgs.lib.attrsets.attrValues overlays-tools
-          );
-        }
-        // overlays-libraries
-        // overlays-tools;
+      overlays.default = lib.composeManyExtensions [
+        overlay-packages
+        overlay-lib
+      ];
     }
     // {
       templates.simple = {

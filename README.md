@@ -13,16 +13,21 @@ nix flake init --template github:input-output-hk/agda.nix#simple
 
 ## overlays
 
-This flake provides `overlays` that add the following Agda libraries to the
-`agdaPackages` set of `nixpkgs`:
+This flake provides an _overlay_ (`overlays.default`) that adds the following
+Agda packages to the `agdaPackages` set of `nixpkgs`:
 
-- `overlays.standard-library-classes`: [`standard-library-classes`](https://github.com/agda/agda-stdlib-classes).
-- `overlays.standard-library-meta`: [`standard-library-meta`](https://github.com/agda/agda-stdlib-meta).
-- `overlays.abstract-set-theory`: [`abstract-set-theory`](https://github.com/input-output-hk/agda-sets).
-- `overlays.iog-prelude`: [`iog-prelude`](https://github.com/input-output-hk/iog-agda-prelude).
-- `overlays.default`: all of the above.
+- [`abstract-set-theory`](https://github.com/input-output-hk/agda-sets).
+- [`iog-prelude`](https://github.com/input-output-hk/iog-agda-prelude).
 
-Additionally, it provides flake inputs for some libraries that are already in `nixpkgs` for consistent handling:
+The _overlay_ adds a `lib` component to `nixpkgs.agda` with the following
+utilities:
 
-- `overlays.standard-library`: [`standard-library`](https://github.com/agda/agda-stdlib).
-- `overlays.agda-categories`: [`agda-categories`](https://github.com/agda/agda-categories).
+- `shellFor`: build a development shell for an Agda package.
+  For example,
+  ```nix
+    devShells.default = pkgs.agda.lib.shellFor pkgs.agdaPackages.iog-prelude;
+  ```
+
+## documentation
+
+See  [docs/examples.md](docs/examples.md) for common recipes.
