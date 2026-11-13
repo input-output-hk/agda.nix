@@ -6,8 +6,13 @@
 
     flake-utils.url = "github:numtide/flake-utils";
 
+    agda = {
+      url = "github:agda/agda/v2.9.0";
+      flake = false;
+    };
+
     standard-library = {
-      url = "github:agda/agda-stdlib";
+      url = "github:agda/agda-stdlib/agda-master";
       flake = false;
     };
 
@@ -17,12 +22,12 @@
     };
 
     standard-library-classes = {
-      url = "github:agda/agda-stdlib-classes";
+      url = "github:agda/agda-stdlib-classes/agda-2.9";
       flake = false;
     };
 
     standard-library-meta = {
-      url = "github:agda/agda-stdlib-meta";
+      url = "github:agda/agda-stdlib-meta/agda-2.9";
       flake = false;
     };
 
@@ -52,11 +57,28 @@
     let
       inherit (nixpkgs) lib;
 
+      overlay-agda = final: prev:
+        let
+          haskellPackages = prev.haskellPackages.override {
+            # Replace the source before nixpkgs applies its Agda build hooks.
+            initialPackages = args: hself:
+              (import "${prev.path}/pkgs/development/haskell-modules/initial-packages.nix" args hself)
+              // {
+                Agda = hself.callCabal2nix "Agda" inputs.agda { };
+              };
+          };
+        in
+        {
+          agdaPackages = prev.agdaPackages.override { Agda = haskellPackages.Agda; };
+          agda = final.agdaPackages.agda;
+        };
+
       overlays-libraries = rec {
         standard-library = final: prev: {
           agdaPackages = prev.agdaPackages.overrideScope (
             afinal: aprev: {
               standard-library = aprev.standard-library.overrideAttrs (_: {
+                version = "3.0-pre";
                 src = inputs.standard-library;
               });
             }
@@ -157,11 +179,11 @@
       let
         pkgs = import nixpkgs {
           inherit system;
-          overlays = nixpkgs.lib.attrsets.attrValues overlays-libraries;
+          overlays = [ overlay-agda ] ++ nixpkgs.lib.attrsets.attrValues overlays-libraries;
         };
       in
       {
-        packages = builtins.listToAttrs (
+        packages = { agda = pkgs.agda; } // builtins.listToAttrs (
           builtins.map (p: {
             name = p;
             value = pkgs.agdaPackages.${p};
@@ -188,8 +210,11 @@
         overlays-libraries
         // overlays-tools
         // {
+          agda = overlay-agda;
           default = lib.composeManyExtensions (
-            nixpkgs.lib.attrsets.attrValues overlays-libraries ++ nixpkgs.lib.attrsets.attrValues overlays-tools
+            [ overlay-agda ]
+            ++ nixpkgs.lib.attrsets.attrValues overlays-libraries
+            ++ nixpkgs.lib.attrsets.attrValues overlays-tools
           );
         }
         // overlays-libraries
