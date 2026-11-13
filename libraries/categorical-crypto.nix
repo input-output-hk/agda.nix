@@ -10,7 +10,10 @@ mkDerivation {
   pname = "categorical-crypto";
   version = "+";
   inherit src;
-  meta = { };
+  meta = {
+    # Requires compatibility fixes and meta's algebraic-solvers branch.
+    broken = true;
+  };
   libraryFile = "categorical-crypto.agda-lib";
   everythingFile = "src/CategoricalCrypto.agda";
   buildInputs = [

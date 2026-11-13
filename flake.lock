@@ -3,11 +3,11 @@
     "abstract-set-theory": {
       "flake": false,
       "locked": {
-        "lastModified": 1771423838,
-        "narHash": "sha256-IFTHS6C44PHdwYQVWNW/0WZf+3fWtzSfR21c3UmihLU=",
+        "lastModified": 1794330108,
+        "narHash": "sha256-QhCotQNKbVEHEE0PIlRRvTWw6C4pzIGEaaRk1ATIHNo=",
         "owner": "input-output-hk",
         "repo": "agda-sets",
-        "rev": "2253231ad856b9b95f32d6b06709748e59bdbb3e",
+        "rev": "b0c17a60f3714d189a7701bc33cb2dbe17e047e4",
         "type": "github"
       },
       "original": {
@@ -16,14 +16,37 @@
         "type": "github"
       }
     },
+    "agda": {
+      "inputs": {
+        "flake-parts": "flake-parts",
+        "ghc-wasm": "ghc-wasm",
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1794552819,
+        "narHash": "sha256-0zXyUgcd85II5BkeqQuU40ERd4AgbE9Dhzmyg0uY7Iw=",
+        "owner": "agda",
+        "repo": "agda",
+        "rev": "da046d6903b7f587f5add669650e52f378f57834",
+        "type": "github"
+      },
+      "original": {
+        "owner": "agda",
+        "ref": "v2.9.0",
+        "repo": "agda",
+        "type": "github"
+      }
+    },
     "agda-categories": {
       "flake": false,
       "locked": {
-        "lastModified": 1757247389,
-        "narHash": "sha256-/3e8CkaTr0bUBgzhjAvu2RV6y0gk77VRA4PE6vutKPc=",
+        "lastModified": 1794139704,
+        "narHash": "sha256-psqRHMTylAG7siaI25ff+wH5R41fQoG3Fwm2mCxUPJc=",
         "owner": "agda",
         "repo": "agda-categories",
-        "rev": "02be9337ad5bf0dedae84cefd58b11f25b18855a",
+        "rev": "ade267a5a02688fb97ec9d6e03ab6192be94439e",
         "type": "github"
       },
       "original": {
@@ -35,16 +58,34 @@
     "categorical-crypto": {
       "flake": false,
       "locked": {
-        "lastModified": 1774441400,
-        "narHash": "sha256-t0HXmhW3C4VPkl1IMiwa16lgZVomxuu74O30qwoEeNU=",
+        "lastModified": 1793375863,
+        "narHash": "sha256-xdbZO5Yyx/buVl5DSppIetJLGNLDl0R0UXUOXrjm5+0=",
         "owner": "input-output-hk",
         "repo": "categorical-crypto",
-        "rev": "6cdf63785fb39f5e340240667e7a0c5aed473d90",
+        "rev": "df6a1bda36c0181cf91bd429edf3f25a8e35236c",
         "type": "github"
       },
       "original": {
         "owner": "input-output-hk",
         "repo": "categorical-crypto",
+        "type": "github"
+      }
+    },
+    "flake-parts": {
+      "inputs": {
+        "nixpkgs-lib": "nixpkgs-lib"
+      },
+      "locked": {
+        "lastModified": 1701473968,
+        "narHash": "sha256-YcVE5emp1qQ8ieHUnxt1wCZCC3ZfAS+SRRWZ2TMda7E=",
+        "owner": "hercules-ci",
+        "repo": "flake-parts",
+        "rev": "34fed993f1674c8d06d58b37ce1e0fe5eebcb9f5",
+        "type": "github"
+      },
+      "original": {
+        "owner": "hercules-ci",
+        "repo": "flake-parts",
         "type": "github"
       }
     },
@@ -66,14 +107,51 @@
         "type": "github"
       }
     },
+    "flake-utils_2": {
+      "inputs": {
+        "systems": "systems_2"
+      },
+      "locked": {
+        "lastModified": 1794427683,
+        "narHash": "sha256-o7ey9gEilsxaifqJWnBDlYSKbNWYQYtKwDyXeZU2kaU=",
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "rev": "cd489559845d81f673a12885576016c65cbe9363",
+        "type": "github"
+      },
+      "original": {
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "type": "github"
+      }
+    },
+    "ghc-wasm": {
+      "inputs": {
+        "flake-utils": "flake-utils",
+        "nixpkgs": "nixpkgs"
+      },
+      "locked": {
+        "lastModified": 1786484825,
+        "narHash": "sha256-ZsE82Ga5c1unUidHzzsN+2ywA80L+q0Flu/ut5yt/rk=",
+        "ref": "refs/heads/master",
+        "rev": "58260711fd5c8ffbb81f4ac56e40323ff509d43b",
+        "revCount": 585,
+        "type": "git",
+        "url": "https://gitlab.haskell.org/haskell-wasm/ghc-wasm-meta.git"
+      },
+      "original": {
+        "type": "git",
+        "url": "https://gitlab.haskell.org/haskell-wasm/ghc-wasm-meta.git"
+      }
+    },
     "iog-prelude": {
       "flake": false,
       "locked": {
-        "lastModified": 1765201741,
-        "narHash": "sha256-xTivBEzcpJBqzdjj+gJqJ7wrEMmh/ZwXRi8h575XPFs=",
+        "lastModified": 1794326726,
+        "narHash": "sha256-fj9laA7EFWTRY8aK/TnLntUCR2ru3LNUpNS7mpdHQVg=",
         "owner": "input-output-hk",
         "repo": "iog-agda-prelude",
-        "rev": "e12e69e8cc76cd41d19d0e38a44afa4358969a47",
+        "rev": "2c752d5ec3b454885cd5aa692d973a254fdc89dd",
         "type": "github"
       },
       "original": {
@@ -84,11 +162,45 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1774622041,
-        "narHash": "sha256-VhD/C5lBrkjs2CpqyeFuxWGvMhmj7l2H5svKBqpTsKI=",
+        "lastModified": 1786367589,
+        "narHash": "sha256-OThVjKEZnNLw3eGBuxY644zKkmrDywlejQSZXR1vUUA=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "8174e9a201057390217bd8c76731a16f1d716a45",
+        "rev": "4014d8bb312b04b49ec74adff5f9b32982bd0580",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "ref": "nixpkgs-26.05-darwin",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "nixpkgs-lib": {
+      "locked": {
+        "dir": "lib",
+        "lastModified": 1701253981,
+        "narHash": "sha256-ztaDIyZ7HrTAfEEUt9AtTDNoCYxUdSd6NrRHaYOIxtk=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "e92039b55bcd58469325ded85d4f58dd5a4eaf58",
+        "type": "github"
+      },
+      "original": {
+        "dir": "lib",
+        "owner": "NixOS",
+        "ref": "nixos-unstable",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "nixpkgs_2": {
+      "locked": {
+        "lastModified": 1794911820,
+        "narHash": "sha256-GnIKrVdeS7WJv2jIYwwklMJILGs8DqLaeupL6bStOag=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "e4bf8d54bdf8cbdcdc7acd405cc2f960bfd02ba2",
         "type": "github"
       },
       "original": {
@@ -100,11 +212,12 @@
     "root": {
       "inputs": {
         "abstract-set-theory": "abstract-set-theory",
+        "agda": "agda",
         "agda-categories": "agda-categories",
         "categorical-crypto": "categorical-crypto",
-        "flake-utils": "flake-utils",
+        "flake-utils": "flake-utils_2",
         "iog-prelude": "iog-prelude",
-        "nixpkgs": "nixpkgs",
+        "nixpkgs": "nixpkgs_2",
         "standard-library": "standard-library",
         "standard-library-classes": "standard-library-classes",
         "standard-library-meta": "standard-library-meta"
@@ -113,15 +226,16 @@
     "standard-library": {
       "flake": false,
       "locked": {
-        "lastModified": 1754140663,
-        "narHash": "sha256-JOeoek6OfyIk9vwTj5QUJU6LnRzwfiG0e0ysW6zbhZ8=",
+        "lastModified": 1794905988,
+        "narHash": "sha256-7TFjdpqG6tv6qTtWdaGhVXXR7RJYL1R4QlKkYaWdVvI=",
         "owner": "agda",
         "repo": "agda-stdlib",
-        "rev": "8326c7475af1fa456ca04a0203c168d5d7ff842b",
+        "rev": "ac7c79b24ecf16cf82decc872d2690c2ee9d8498",
         "type": "github"
       },
       "original": {
         "owner": "agda",
+        "ref": "v2.4.1",
         "repo": "agda-stdlib",
         "type": "github"
       }
@@ -129,11 +243,11 @@
     "standard-library-classes": {
       "flake": false,
       "locked": {
-        "lastModified": 1754406591,
-        "narHash": "sha256-tuXuZcwu6XNFP979oSZg0yfFY9eMyqpkUNddk+QchVc=",
+        "lastModified": 1793783939,
+        "narHash": "sha256-Wzeg5d527TXFgbInht4GdC2B24GLSEHuEt+23tM6dA8=",
         "owner": "agda",
         "repo": "agda-stdlib-classes",
-        "rev": "e732956fb01eb616bb3429f290d9434f4ab59b6a",
+        "rev": "a21d7b5ed8326cbe2f10ac13bd3c6cbee12d2caf",
         "type": "github"
       },
       "original": {
@@ -145,15 +259,16 @@
     "standard-library-meta": {
       "flake": false,
       "locked": {
-        "lastModified": 1784039623,
-        "narHash": "sha256-HQX2phq5CtAsczRRS0A6llWzjKGAeRksNgj8PLGu8kQ=",
+        "lastModified": 1794912281,
+        "narHash": "sha256-fpFGrkYNGtd/HCzcqTmiL9ksRXU2OAx2WQYXIkafLeU=",
         "owner": "agda",
         "repo": "agda-stdlib-meta",
-        "rev": "5690f324fcde24aea4c58011035185150f65058b",
+        "rev": "3ebc54dad47ea5f87450087a7f1cbf844ba243e7",
         "type": "github"
       },
       "original": {
         "owner": "agda",
+        "ref": "agda-2.9",
         "repo": "agda-stdlib-meta",
         "type": "github"
       }
@@ -165,6 +280,21 @@
         "owner": "nix-systems",
         "repo": "default",
         "rev": "da67096a3b9bf56a91d16901293e51ba5b49a27e",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-systems",
+        "repo": "default",
+        "type": "github"
+      }
+    },
+    "systems_2": {
+      "locked": {
+        "lastModified": 1791244623,
+        "narHash": "sha256-uuanbkFk8a313Zfrxdcz8Us/yQtaxNnKJtX8v0ZPpd8=",
+        "owner": "nix-systems",
+        "repo": "default",
+        "rev": "d36eeed142f88b5a636f2e3856a53c61654cf29b",
         "type": "github"
       },
       "original": {
