@@ -26,3 +26,7 @@ Additionally, it provides flake inputs for some libraries that are already in `n
 
 - `overlays.standard-library`: [`standard-library`](https://github.com/agda/agda-stdlib).
 - `overlays.agda-categories`: [`agda-categories`](https://github.com/agda/agda-categories).
+
+## versioning
+
+Versioning is provided by branches, similar to `nixpkgs`. The naming convention for the branches is `<agda-version>/<stdlib-version>-<revision>`, where revisions are trimmed from versions. So `2.9/2.4-0` has Agda `2.9.X` and stdlib `2.4.X`. The revision is incremented on breaking changes.
